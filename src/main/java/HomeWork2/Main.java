@@ -22,6 +22,6 @@ public class Main {
         for (int i = 0; i < builder.length(); i+=builder.length() - 1)
             builder.delete(i, i + 1);
         builder.replace(builder.lastIndexOf(","), builder.length(), "");
-        System.out.println(s + builder);
+        System.out.println(s + builder.toString().replace(":", "="));
     }
 }

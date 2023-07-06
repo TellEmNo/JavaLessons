@@ -2,45 +2,47 @@ package oop1;
 
 import oop1.units.*;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        Archer archer1 = new Archer();
-        System.out.println(archer1.getInfo());
-        Crossbowman crossbowman1 = new Crossbowman();
-        System.out.println(crossbowman1.getInfo());
-        Peasant peasant1 = new Peasant();
-        System.out.println(peasant1.getInfo());
-        Peasant peasant2 = new Peasant();
-        System.out.println(peasant2.getInfo());
-        while (true) {
-//            peasant1.bringAnArrow(crossbowman1);
-            crossbowman1.attack(archer1);
-            if(archer1.getHp() == 0) {
-                System.out.println(archer1.getInfo());
-                break;
-            }
-//            peasant2.bringAnArrow(archer1);
-            archer1.attack(crossbowman1);
-            if (crossbowman1.getHp() == 0) {
-                System.out.println(crossbowman1.getInfo());
-                break;
-            }
-            System.out.println(archer1.getInfo());
-            System.out.println(crossbowman1.getInfo());
+        ArrayList<BaseHero> listOfHeroes1 = new ArrayList<>();
+        ArrayList<BaseHero> listOfHeroes2 = new ArrayList<>();
+
+//        for (int i = 0; i < 10; i++) {
+//            int val = new Random().nextInt(7);
+//            switch (val){
+//                case 0 -> listOfHeroes1.add(new Archer());
+//                case 1 -> listOfHeroes1.add(new Crossbowman());
+//                case 2 -> listOfHeroes1.add(new Magician());
+//                case 3 -> listOfHeroes1.add(new Monk());
+//                case 4 -> listOfHeroes1.add(new Peasant());
+//                case 5 -> listOfHeroes1.add(new Rogue());
+//                case 6 -> listOfHeroes1.add(new Spearman());
+//            }
+//            System.out.println(listOfHeroes1.get(i));
+//        }
+
+
+        RandomHero randomHero = new RandomHero(new RandomHS[]{
+                new Archer(),
+                new Crossbowman(),
+                new Magician(),
+                new Monk(),
+                new Peasant(),
+                new Rogue(),
+                new Spearman()
+        });
+
+        System.out.println("Команда №1: ");
+        for (int i = 0; i < 10; i++) {
+            listOfHeroes1.add(randomHero.create());
+            System.out.println(listOfHeroes1.get(i).getInfo());
         }
-//        Archer archer1 = new Archer();
-//        System.out.println(archer1.getInfo());
-//        Crossbowman crossbowman1 = new Crossbowman();
-//        System.out.println(crossbowman1.getInfo());
-//        Spearman spearman1 = new Spearman();
-//        System.out.println(spearman1.getInfo());
-//        Rogue rogue1 = new Rogue();
-//        System.out.println(rogue1.getInfo());
-//        Magician magician1 = new Magician();
-//        System.out.println(magician1.getInfo());
-//        Monk monk1 = new Monk();
-//        System.out.println(monk1.getInfo());
-//        Peasant peasant1 = new Peasant();
-//        System.out.println(peasant1.getInfo());
+        System.out.println("Команда №2: ");
+        for (int i = 0; i < 10; i++) {
+            listOfHeroes2.add(randomHero.create());
+            System.out.println(listOfHeroes2.get(i).getInfo());
+        }
     }
 }

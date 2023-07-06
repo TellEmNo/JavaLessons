@@ -1,19 +1,17 @@
 package oop1.units;
 
+import oop1.InGameInterface;
+import oop1.RandomHS;
+
 import java.util.Random;
 
-public class Monk extends BaseHero{
+public class Monk extends BaseHero implements InGameInterface, RandomHS {
     protected float concentration;
     protected float maxConcentration;
     public Monk() {
         super(getName(), new Random().nextInt(100, 150));
         this.concentration = new Random().nextInt(100, 120);
         this.maxConcentration = this.concentration;
-    }
-
-    @Override
-    public String getInfo() {
-        return  (super.getInfo()+ "," + " концентрация: " + this.concentration);
     }
 
     public void attack(BaseHero target) {
@@ -42,5 +40,19 @@ public class Monk extends BaseHero{
         this.concentration -= hp;
         if ((hp * luck) > 25) System.out.println(name+": Удачное лечение!");
         else if ((hp * luck) < 15) System.out.println(name+": Неудачное лечение!");
+    }
+
+    @Override
+    public String getInfo() {
+        return  (super.getInfo()+ "," + " концентрация: " + this.concentration);
+    }
+
+    public void step() {
+        super.step();
+    }
+
+    @Override
+    public BaseHero create() {
+        return new Monk();
     }
 }

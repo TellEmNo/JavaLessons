@@ -4,31 +4,30 @@ package oop1.units;
 // На базе описания персонажей описать простейшую иерархию классов.
 // В основной программе создать по одному экземпляру каждого класса.
 
+import oop1.InGameInterface;
 import oop1.Name;
 
 import java.util.Random;
 
-public abstract class BaseHero {
+public abstract class BaseHero implements InGameInterface {
 
     protected String name;
     protected float hp;
     protected float maxHp;
     protected int arrows;
+    protected int speed;
 
     public BaseHero(String name, float hp) {
         this.name = name;
         this.hp = hp;
         this.maxHp = hp;
+//        this.speed = speed;
     }
 
     public BaseHero() {this((getName()), new Random().nextInt(100, 200));}
 
     public static String getName() {
         return String.valueOf(Name.values()[new Random().nextInt(Name.values().length)]);
-    }
-
-    public String getInfo() {
-        return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + "," + " Hp: " + this.hp);
     }
 
     public float getHp() {
@@ -59,5 +58,14 @@ public abstract class BaseHero {
         else if (indicator < 15) damageModifier = 0.7f;
 
         return damageModifier;
+    }
+
+    public String getInfo() {
+        return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + "," + " Hp: " + this.hp);
+    }
+
+    @Override
+    public void step() {
+        System.out.println(this.getClass().getSimpleName() + this.name + " совершает свой ход ...");
     }
 }

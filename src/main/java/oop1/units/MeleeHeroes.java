@@ -1,8 +1,10 @@
 package oop1.units;
 
+import oop1.InGameInterface;
+
 import java.util.Random;
 
-public abstract class MeleeHeroes extends BaseHero{
+public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
 
     protected float endurance;
     protected float maxEndurance;
@@ -11,4 +13,8 @@ public abstract class MeleeHeroes extends BaseHero{
         super(name, hp);
     }
 
+    @Override
+    public String getInfo() {
+        return  (super.getInfo()+ "," + " выносливость: " + this.endurance);
+    }
 }

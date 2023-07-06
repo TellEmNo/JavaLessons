@@ -1,17 +1,15 @@
 package oop1.units;
 
+import oop1.InGameInterface;
+import oop1.RandomHS;
+
 import java.util.Random;
 
-public class Rogue extends MeleeHeroes{
+public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
     public Rogue() {
-        super(getName(), new Random().nextInt(50, 75));
-        super.endurance = new Random().nextInt(50, 75);
+        super(getName(), new Random().nextInt(65, 80));
+        super.endurance = new Random().nextInt(60, 90);
         super.maxEndurance = super.endurance;
-    }
-
-    @Override
-    public String getInfo() {
-        return  (super.getInfo()+ "," + " выносливость: " + super.endurance);
     }
 
     public void attack(BaseHero target) {
@@ -38,5 +36,19 @@ public class Rogue extends MeleeHeroes{
         else if (indicator < 6) damageModifier = 0.9f;
 
         return damageModifier;
+    }
+
+    @Override
+    public String getInfo() {
+        return super.getInfo();
+    }
+
+    public void step(){
+        super.step();
+    }
+
+    @Override
+    public BaseHero create() {
+        return new Rogue();
     }
 }

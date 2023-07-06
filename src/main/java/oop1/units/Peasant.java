@@ -1,17 +1,15 @@
 package oop1.units;
 
+import oop1.InGameInterface;
+import oop1.RandomHS;
+
 import java.util.Random;
 
-public class Peasant extends MeleeHeroes{
+public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
     public Peasant() {
         super(getName(), new Random().nextInt(40, 50));
         super.endurance = new Random().nextInt(40, 50);
         super.maxEndurance = super.endurance;
-    }
-
-    @Override
-    public String getInfo() {
-        return  (super.getInfo()+ "," + " выносливость: " + super.endurance);
     }
 
     public void woundDressing(BaseHero target){
@@ -29,5 +27,20 @@ public class Peasant extends MeleeHeroes{
 
     public void bringAnArrow(BaseHero target){
         ++target.arrows;
+    }
+
+    @Override
+    public String getInfo() {
+        return super.getInfo();
+    }
+
+    @Override
+    public void step() {
+        super.step();
+    }
+
+    @Override
+    public BaseHero create() {
+        return new Peasant();
     }
 }

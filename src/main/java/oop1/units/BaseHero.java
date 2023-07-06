@@ -66,6 +66,6 @@ public abstract class BaseHero implements InGameInterface {
 
     @Override
     public void step() {
-        System.out.println(this.getClass().getSimpleName() + this.name + " совершает свой ход ...");
+        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 }

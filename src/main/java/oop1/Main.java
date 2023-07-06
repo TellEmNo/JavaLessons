@@ -44,5 +44,6 @@ public class Main {
             listOfHeroes2.add(randomHero.create());
             System.out.println(listOfHeroes2.get(i).getInfo());
         }
+        listOfHeroes1.get(1).step();
     }
 }

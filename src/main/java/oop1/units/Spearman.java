@@ -3,12 +3,14 @@ package oop1.units;
 import oop1.InGameInterface;
 import oop1.RandomHS;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
 
     public Spearman() {
-        super(getName(), new Random().nextInt(100, 150));
+        super(getName(), new Random().nextInt(100, 150),
+                new Random().nextInt(8, 10) ,new Random().nextInt(10));
         super.endurance = new Random().nextInt(100, 130);
         super.maxEndurance = super.endurance;
     }
@@ -18,19 +20,20 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
         float damage;
 
         if (super.endurance > 0){
-            damage = new Random().nextInt(23, 30);
+            damage = new Random().nextInt(11, 15);
         }
         else damage = 0;
 
         target.getDamage((damage * luck));
         super.endurance -= damage * 0.4;
-        if ((damage * luck) > 29) System.out.println(name+": Удачный удар!");
-        else if ((damage * luck) < 23) System.out.println(name+": Неудачный удар!");
+        if ((damage * luck) > 14) System.out.println(name+": Удачный удар!");
+        else if ((damage * luck) < 11) System.out.println(name+": Неудачный удар!");
     }
 
     @Override
     public String getInfo() {
-        return super.getInfo();
+        return super.getInfo() +
+                "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y);
     }
 
     @Override
@@ -39,7 +42,12 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public BaseHero create() {
+    public BaseHero create2() {
         return new Spearman();
+    }
+
+    @Override
+    public BaseHero create1() {
+        return null;
     }
 }

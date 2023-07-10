@@ -9,8 +9,8 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
     protected float endurance;
     protected float maxEndurance;
 //    protected float rage;
-    public MeleeHeroes(String name, float hp) {
-        super(name, hp);
+    public MeleeHeroes(String name, float hp, int x, int y) {
+        super(name, hp, x, y);
     }
 
     @Override

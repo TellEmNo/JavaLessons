@@ -13,8 +13,13 @@ public class RandomHero implements RandomHS {
     }
 
     @Override
-    public BaseHero create() {
-        int index = r.nextInt(randomHS.length);
-        return randomHS[index].create();
+    public BaseHero create1() {
+        int index = r.nextInt(randomHS.length/2);
+        return randomHS[index].create1();
+    }
+    @Override
+    public BaseHero create2() {
+        int index = r.nextInt(randomHS.length/2, randomHS.length);
+        return randomHS[index].create2();
     }
 }

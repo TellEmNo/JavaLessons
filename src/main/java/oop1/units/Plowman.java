@@ -3,13 +3,12 @@ package oop1.units;
 import oop1.InGameInterface;
 import oop1.RandomHS;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
-    public Peasant() {
+public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
+    public Plowman() {
         super(getName(), new Random().nextInt(40, 50),
-                new Random().nextInt(0, 2) ,new Random().nextInt(10));
+                new Random().nextInt(8, 10) ,new Random().nextInt(10));
         super.endurance = new Random().nextInt(40, 50);
         super.maxEndurance = super.endurance;
     }
@@ -43,12 +42,12 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public BaseHero create1() {
-        return new Peasant();
+    public BaseHero create2() {
+        return new Plowman();
     }
 
     @Override
-    public BaseHero create2() {
+    public BaseHero create1() {
         return null;
     }
 }

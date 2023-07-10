@@ -5,8 +5,8 @@ import java.util.Random;
 public abstract class RangedHeroes extends BaseHero{
 
 //    protected float accuracy;
-    public RangedHeroes(String name, float hp) {
-        super(name, hp);
+    public RangedHeroes(String name, float hp, int x, int y) {
+        super(name, hp, x, y);
     }
 
 //    public void attack(BaseHero target) {

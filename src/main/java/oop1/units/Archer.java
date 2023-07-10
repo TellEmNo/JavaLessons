@@ -3,13 +3,15 @@ package oop1.units;
 import oop1.InGameInterface;
 import oop1.RandomHS;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
 
     public Archer(){
-        super(getName(), new Random().nextInt(60, 75));
-        super.arrows = new Random().nextInt(6, 8);
+        super(getName(), new Random().nextInt(60, 75),
+                new Random().nextInt(0, 2) ,new Random().nextInt(10));
+        super.arrows = new Random().nextInt(8, 11);
     }
 
     @Override
@@ -17,18 +19,19 @@ public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
         float luck = super.luck();
         float damage;
         if (this.arrows > 0){
-            damage = new Random().nextInt(20, 25);
+            damage = new Random().nextInt(10, 13);
         }
         else damage = 0;
         target.getDamage((damage * luck));
         --this.arrows;
-        if ((damage * luck) > 24) System.out.println(name+": Удачный выстрел!");
-        else if ((damage * luck) < 20) System.out.println(name+": Неудачный выстрел!");
+        if ((damage * luck) > 13) System.out.println(name+": Удачный выстрел!");
+        else if ((damage * luck) < 10) System.out.println(name+": Неудачный выстрел!");
     }
 
     @Override
     public String getInfo() {
-        return  (super.getInfo()+ "," + " стрел: " + super.arrows);
+        return  (super.getInfo()+ "," + " стрел: " + super.arrows +
+                "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y));
     }
 
     @Override
@@ -37,7 +40,12 @@ public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public BaseHero create() {
+    public BaseHero create1() {
         return new Archer();
+    }
+
+    @Override
+    public BaseHero create2() {
+        return null;
     }
 }

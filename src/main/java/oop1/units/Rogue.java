@@ -3,11 +3,13 @@ package oop1.units;
 import oop1.InGameInterface;
 import oop1.RandomHS;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
     public Rogue() {
-        super(getName(), new Random().nextInt(65, 80));
+        super(getName(), new Random().nextInt(65, 80),
+                new Random().nextInt(0, 2) ,new Random().nextInt(10));
         super.endurance = new Random().nextInt(60, 90);
         super.maxEndurance = super.endurance;
     }
@@ -17,14 +19,14 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
         float damage;
 
         if (super.endurance > 0){
-            damage = new Random().nextInt(33, 34);
+            damage = new Random().nextInt(19, 20);
         }
         else damage = 0;
 
         target.getDamage((damage * luck));
         super.endurance -= damage * 0.2;
-        if ((damage * luck) > 33) System.out.println(name+": Удачный удар!");
-        else if ((damage * luck) < 33) System.out.println(name+": Неудачный удар!");
+        if ((damage * luck) > 19) System.out.println(name+": Удачный удар!");
+        else if ((damage * luck) < 19) System.out.println(name+": Неудачный удар!");
     }
 
     @Override
@@ -40,15 +42,22 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
 
     @Override
     public String getInfo() {
-        return super.getInfo();
+        return super.getInfo() +
+                "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y);
     }
 
-    public void step(){
+    @Override
+    public void step() {
         super.step();
     }
 
     @Override
-    public BaseHero create() {
+    public BaseHero create1() {
         return new Rogue();
+    }
+
+    @Override
+    public BaseHero create2() {
+        return null;
     }
 }

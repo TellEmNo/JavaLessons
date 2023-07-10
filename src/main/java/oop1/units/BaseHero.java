@@ -4,9 +4,12 @@ package oop1.units;
 // На базе описания персонажей описать простейшую иерархию классов.
 // В основной программе создать по одному экземпляру каждого класса.
 
+import oop1.Coordinates;
 import oop1.InGameInterface;
 import oop1.Name;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public abstract class BaseHero implements InGameInterface {
@@ -16,15 +19,18 @@ public abstract class BaseHero implements InGameInterface {
     protected float maxHp;
     protected int arrows;
     protected int speed;
+    Coordinates coordinates;
 
-    public BaseHero(String name, float hp) {
+    public BaseHero(String name, float hp, int x, int y) {
         this.name = name;
         this.hp = hp;
         this.maxHp = hp;
 //        this.speed = speed;
+        coordinates = new Coordinates(x, y);
     }
 
-    public BaseHero() {this((getName()), new Random().nextInt(100, 200));}
+//    public BaseHero() {this((getName()), new Random().nextInt(100, 200),
+//            new Random().nextInt(0, 2) ,new Random().nextInt(10));}
 
     public static String getName() {
         return String.valueOf(Name.values()[new Random().nextInt(Name.values().length)]);
@@ -67,5 +73,24 @@ public abstract class BaseHero implements InGameInterface {
     @Override
     public void step() {
         System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
+    }
+
+    @Override
+    public String closest(ArrayList<BaseHero> team) {
+        Double closestD = Double.MAX_VALUE;
+        Double dist;
+        String hero = null;
+        String res = null;
+        String heroName = null;
+        for (int i = 0; i < team.size(); i++) {
+            dist = coordinates.distance(team.get(i).coordinates);
+            if (dist < closestD) {
+                closestD = dist;
+                hero = team.get(i).getClass().getSimpleName();
+                heroName = team.get(i).name;
+                res = String.format( "Противник - %s, класс: %s, находится на расстоянии: %.2f ", heroName, hero, closestD);
+            }
+        }
+        return res;
     }
 }

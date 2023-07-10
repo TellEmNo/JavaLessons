@@ -38,8 +38,9 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step() {
-        super.step();
+    public void step(ArrayList<BaseHero> team) {
+        System.out.println(closest(team));
+        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 
     @Override

@@ -71,11 +71,6 @@ public abstract class BaseHero implements InGameInterface {
     }
 
     @Override
-    public void step() {
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
-    }
-
-    @Override
     public String closest(ArrayList<BaseHero> team) {
         Double closestD = Double.MAX_VALUE;
         Double dist;

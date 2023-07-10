@@ -46,8 +46,10 @@ public class Main {
             team2.add(randomHero.create2());
             System.out.println(team2.get(j).getInfo());
         }
-
-        System.out.println('\n'+ team1.get(0).closest(team2) + "\n");
+        System.out.println("______________________________________________________");
+        team1.forEach(n -> n.step(team2));
+        System.out.println("______________________________________________________");
+//        team2.forEach(n -> n.step(team1));
 
         team1.get(0).attack(team2.get(0));
         System.out.println(team2.get(0).getInfo());

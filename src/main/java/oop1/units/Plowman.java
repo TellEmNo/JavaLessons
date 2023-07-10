@@ -3,6 +3,7 @@ package oop1.units;
 import oop1.InGameInterface;
 import oop1.RandomHS;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
@@ -37,8 +38,9 @@ public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step() {
-        super.step();
+    public void step(ArrayList<BaseHero> team) {
+        System.out.println(closest(team));
+        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 
     @Override

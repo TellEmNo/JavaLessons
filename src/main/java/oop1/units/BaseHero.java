@@ -21,11 +21,11 @@ public abstract class BaseHero implements InGameInterface {
     protected int speed;
     Coordinates coordinates;
 
-    public BaseHero(String name, float hp, int x, int y) {
+    public BaseHero(String name, float hp, int speed, int x, int y) {
         this.name = name;
         this.hp = hp;
         this.maxHp = hp;
-//        this.speed = speed;
+        this.speed = speed;
         coordinates = new Coordinates(x, y);
     }
 
@@ -40,6 +40,10 @@ public abstract class BaseHero implements InGameInterface {
         return hp;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
     protected void getHeal(float hp) {
         this.hp = hp + this.hp > this.maxHp ? this.maxHp : hp + this.hp;
     }
@@ -48,17 +52,19 @@ public abstract class BaseHero implements InGameInterface {
         if (this.hp - damage > 0) {
             this.hp -= damage;
         }
-        else this.hp = 0;
+        else {
+            this.hp = 0;
+        }
     }
 
     public void attack(BaseHero target) {
         float damage = new Random().nextInt(5, 10);
-        target.getDamage((damage * luck()));
+        target.getDamage((damage));
     }
 
-    public float luck(){
+    public float luck() {
         float damageModifier = 0;
-        int indicator = new Random().nextInt(1,101);
+        int indicator = new Random().nextInt(1, 101);
         if (indicator > 79) damageModifier = 1.5f;
         else if (indicator < 80 & indicator > 14) damageModifier = 1;
         else if (indicator < 15) damageModifier = 0.7f;
@@ -71,21 +77,41 @@ public abstract class BaseHero implements InGameInterface {
     }
 
     @Override
-    public String closest(ArrayList<BaseHero> team) {
+    public void closestEnemyInfo(ArrayList<BaseHero> team){
         Double closestD = Double.MAX_VALUE;
         Double dist;
-        String hero = null;
-        String res = null;
+        String heroType = null;
         String heroName = null;
-        for (int i = 0; i < team.size(); i++) {
+        String res = null;
+        for (int i = 0; i < team.size(); i++){
             dist = coordinates.distance(team.get(i).coordinates);
-            if (dist < closestD) {
+            if (dist < closestD & team.get(i).hp > 0) {
                 closestD = dist;
-                hero = team.get(i).getClass().getSimpleName();
+                heroType = team.get(i).getClass().getSimpleName();
                 heroName = team.get(i).name;
-                res = String.format( "Противник - %s, класс: %s, находится на расстоянии: %.2f ", heroName, hero, closestD);
+                res = String.format( "Противник - %s, класс: %s, hp: %.1f, находится на расстоянии: %.2f "
+                        , heroName, heroType, team.get(i).hp, closestD);
+            }
+            else if (team.get(i).hp <= 0) {
+                System.out.println("Противник " + team.get(i).name + " погиб в бою!");
+                team.remove(team.get(i));
             }
         }
-        return res;
+        System.out.println(res);
+    }
+
+    @Override
+    public BaseHero closestEnemy(ArrayList<BaseHero> team) {
+        Double closestD = Double.MAX_VALUE;
+        Double dist;
+        BaseHero currentEnemy = null;
+        for (int i = 0; i < team.size(); i++) {
+            dist = coordinates.distance(team.get(i).coordinates);
+            if (dist < closestD & team.get(i).hp > 0) {
+                closestD = dist;
+                currentEnemy = team.get(i);
+            }
+        }
+        return currentEnemy;
     }
 }

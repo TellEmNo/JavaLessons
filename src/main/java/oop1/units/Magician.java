@@ -10,7 +10,7 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     protected float mana;
     protected float maxMana;
     public Magician() {
-        super(getName(), new Random().nextInt(60, 75),
+        super(getName(), new Random().nextInt(60, 75), 3,
                 new Random().nextInt(8, 10) ,new Random().nextInt(10));
         this.mana = new Random().nextInt(100, 130);
         this.maxMana = this.mana;
@@ -26,10 +26,10 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
         target.getDamage((damage));
         this.mana -= damage * 2;
     }
-        public void restoreMana(){
+    public void restoreMana(){
         float hp = this.hp/2;
         this.mana = this.mana + hp > this.maxMana ? this.maxMana : this.mana + hp;
-        this.hp -= this.hp/4;
+        super.hp -= super.hp/4;
     }
 
     public void heal(BaseHero target){
@@ -52,9 +52,15 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> team) {
-        System.out.println(closest(team));
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
+        if(super.hp > 0){
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            closestEnemyInfo(enemyTeam);
+            System.out.println(super.getClass().getSimpleName()+ " " + super.name + " запускает огненный шар! ...");
+            attack(currentEnemy);
+            closestEnemyInfo(enemyTeam);
+        }
+        else return ;
     }
 
     @Override

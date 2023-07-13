@@ -3,6 +3,8 @@ package oop1;
 import oop1.units.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
@@ -46,12 +48,25 @@ public class Main {
             team2.add(randomHero.create2());
             System.out.println(team2.get(j).getInfo());
         }
-        System.out.println("______________________________________________________");
-        team1.forEach(n -> n.step(team2));
-        System.out.println("______________________________________________________");
-//        team2.forEach(n -> n.step(team1));
 
-        team1.get(0).attack(team2.get(0));
-        System.out.println(team2.get(0).getInfo());
+        ArrayList<BaseHero> battle = new ArrayList<>();
+        battle.addAll(team1);
+        battle.addAll(team2);
+
+        Collections.sort(battle, Comparator.comparingInt(BaseHero::getSpeed).reversed());
+
+        System.out.println("__________________________________________________________________________________________");
+        battle.forEach(n -> n.step(team1, team2));
+        System.out.println("__________________________________________________________________________________________");
+
+        System.out.println("Команда №1: ");
+        for (int i = 0; i < team1.size(); i++) {
+            System.out.println(team1.get(i).getInfo());
+        }
+        System.out.println();
+        System.out.println("Команда №2: ");
+        for (int j = 0; j < team2.size(); j++) {
+            System.out.println(team2.get(j).getInfo());
+        }
     }
 }

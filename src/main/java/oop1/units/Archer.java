@@ -9,7 +9,7 @@ import java.util.Random;
 public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
 
     public Archer(){
-        super(getName(), new Random().nextInt(60, 75),
+        super(getName(), new Random().nextInt(60, 75), 5,
                 new Random().nextInt(0, 2) ,new Random().nextInt(10));
         super.arrows = new Random().nextInt(8, 11);
     }
@@ -32,12 +32,6 @@ public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
     public String getInfo() {
         return  (super.getInfo()+ "," + " стрел: " + super.arrows +
                 "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y));
-    }
-
-    @Override
-    public void step(ArrayList<BaseHero> team) {
-        System.out.println(closest(team));
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 
     @Override

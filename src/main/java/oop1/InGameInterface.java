@@ -3,10 +3,11 @@ package oop1;
 import oop1.units.BaseHero;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface InGameInterface {
-    void step(ArrayList<BaseHero> team);
+    void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam);
     String getInfo();
-    String closest(ArrayList<BaseHero> baseHeroes);
+    BaseHero closestEnemy(ArrayList<BaseHero> baseHeroes);
+    void closestEnemyInfo(ArrayList<BaseHero> team);
+
 }

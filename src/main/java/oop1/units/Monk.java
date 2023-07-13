@@ -10,7 +10,7 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     protected float concentration;
     protected float maxConcentration;
     public Monk() {
-        super(getName(), new Random().nextInt(100, 150),
+        super(getName(), new Random().nextInt(100, 150), 4,
                 new Random().nextInt(0, 2) ,new Random().nextInt(10));
         this.concentration = new Random().nextInt(100, 120);
         this.maxConcentration = this.concentration;
@@ -51,9 +51,15 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> team) {
-        System.out.println(closest(team));
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
+        if(super.hp > 0){
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            closestEnemyInfo(enemyTeam);
+            System.out.println(super.getClass().getSimpleName()+ " " + super.name + " бьёт ладонью! ...");
+            attack(currentEnemy);
+            closestEnemyInfo(enemyTeam);
+        }
+        else return ;
     }
 
     @Override

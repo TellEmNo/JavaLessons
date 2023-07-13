@@ -9,7 +9,7 @@ import java.util.Random;
 public class Crossbowman extends RangedHeroes implements InGameInterface, RandomHS {
 
     public Crossbowman() {
-        super(getName(), new Random().nextInt(60, 85),
+        super(getName(), new Random().nextInt(60, 85), 5,
                 new Random().nextInt(8, 10) ,new Random().nextInt(10));
         super.arrows = new Random().nextInt(7, 10);
     }
@@ -32,12 +32,6 @@ public class Crossbowman extends RangedHeroes implements InGameInterface, Random
     public String getInfo() {
         return  (super.getInfo()+ "," + " болтов: " + super.arrows +
                 "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y));
-    }
-
-    @Override
-    public void step(ArrayList<BaseHero> team) {
-        System.out.println(closest(team));
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 
     @Override

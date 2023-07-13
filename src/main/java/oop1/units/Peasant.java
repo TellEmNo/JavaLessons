@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
     public Peasant() {
-        super(getName(), new Random().nextInt(40, 50),
+        super(getName(), new Random().nextInt(40, 50), 6,
                 new Random().nextInt(0, 2) ,new Random().nextInt(10));
         super.endurance = new Random().nextInt(40, 50);
         super.maxEndurance = super.endurance;
@@ -27,20 +27,8 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
         else if ((hp * luck) < 5) System.out.println(name+": Неудачная перевязка раны!");
     }
 
-    public void bringAnArrow(BaseHero target){
+    public void bringAnArrow(RangedHeroes target){
         ++target.arrows;
-    }
-
-    @Override
-    public String getInfo() {
-        return super.getInfo() +
-                "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y);
-    }
-
-    @Override
-    public void step(ArrayList<BaseHero> team) {
-        System.out.println(closest(team));
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 
     @Override

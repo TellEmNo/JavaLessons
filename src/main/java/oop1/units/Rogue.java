@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
     public Rogue() {
-        super(getName(), new Random().nextInt(65, 80),
+        super(getName(), new Random().nextInt(65, 80), 9,
                 new Random().nextInt(0, 2) ,new Random().nextInt(10));
         super.endurance = new Random().nextInt(60, 90);
         super.maxEndurance = super.endurance;
@@ -38,18 +38,6 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
         else if (indicator < 6) damageModifier = 0.9f;
 
         return damageModifier;
-    }
-
-    @Override
-    public String getInfo() {
-        return super.getInfo() +
-                "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y);
-    }
-
-    @Override
-    public void step(ArrayList<BaseHero> team) {
-        System.out.println(closest(team));
-        System.out.println(this.getClass().getSimpleName()+ " " + this.name + " совершает свой ход ...");
     }
 
     @Override

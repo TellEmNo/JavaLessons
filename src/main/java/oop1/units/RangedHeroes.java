@@ -10,13 +10,18 @@ public abstract class RangedHeroes extends BaseHero{
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist) {
+        ArrayList<BaseHero> tmp;
         if(super.hp > 0 & super.arrows > 0){
-            BaseHero currentEnemy = closestEnemy(enemyTeam);
-            closestEnemyInfo(enemyTeam);
+            if(dist > 0)
+                tmp = enemyTeam;
+            else
+                tmp = alliedTeam;
+            BaseHero currentEnemy = closestEnemy(tmp);
+            closestEnemyInfo(tmp);
             System.out.println(super.getClass().getSimpleName()+ " " + super.name + " стреляет! ...");
             attack(currentEnemy);
-            closestEnemyInfo(enemyTeam);
+            closestEnemyInfo(tmp);
         }
         else return;
     }

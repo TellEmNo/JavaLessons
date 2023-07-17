@@ -53,10 +53,10 @@ public class Main {
         battle.addAll(team1);
         battle.addAll(team2);
 
-        Collections.sort(battle, Comparator.comparingInt(BaseHero::getSpeed).reversed());
+        battle.sort(Comparator.comparingInt(BaseHero::getSpeed).reversed());
 
         System.out.println("__________________________________________________________________________________________");
-        battle.forEach(n -> n.step(team1, team2));
+        battle.forEach(n -> n.step(team1, team2, n.distanceTo(team2)));
         System.out.println("__________________________________________________________________________________________");
 
         System.out.println("Команда №1: ");

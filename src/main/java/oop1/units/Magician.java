@@ -52,13 +52,18 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist) {
+        ArrayList<BaseHero> tmp;
         if(super.hp > 0){
-            BaseHero currentEnemy = closestEnemy(enemyTeam);
-            closestEnemyInfo(enemyTeam);
+            if(dist > 0)
+                tmp = enemyTeam;
+            else
+                tmp = alliedTeam;
+            BaseHero currentEnemy = closestEnemy(tmp);
+            closestEnemyInfo(tmp);
             System.out.println(super.getClass().getSimpleName()+ " " + super.name + " запускает огненный шар! ...");
             attack(currentEnemy);
-            closestEnemyInfo(enemyTeam);
+            closestEnemyInfo(tmp);
         }
         else return ;
     }

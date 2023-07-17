@@ -5,9 +5,10 @@ import oop1.units.BaseHero;
 import java.util.ArrayList;
 
 public interface InGameInterface {
-    void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam);
+    void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist);
+//    void step(ArrayList<BaseHero> battle);
     String getInfo();
     BaseHero closestEnemy(ArrayList<BaseHero> baseHeroes);
-    void closestEnemyInfo(ArrayList<BaseHero> team);
-
+    void closestEnemyInfo(ArrayList<BaseHero> enemyTeam);
+    Double distanceTo(ArrayList<BaseHero> enemyTeam);
 }

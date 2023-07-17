@@ -19,6 +19,7 @@ public abstract class BaseHero implements InGameInterface {
     protected float maxHp;
     protected int arrows;
     protected int speed;
+    protected String state = "Stand";
     Coordinates coordinates;
 
     public BaseHero(String name, float hp, int speed, int x, int y) {
@@ -26,6 +27,7 @@ public abstract class BaseHero implements InGameInterface {
         this.hp = hp;
         this.maxHp = hp;
         this.speed = speed;
+        this.state = state;
         coordinates = new Coordinates(x, y);
     }
 
@@ -114,4 +116,17 @@ public abstract class BaseHero implements InGameInterface {
         }
         return currentEnemy;
     }
+
+    @Override
+    public Double distanceTo(ArrayList<BaseHero> team) {
+        Double distance;
+        Double closestD = Double.MAX_VALUE;
+        for (int i = 0; i < team.size(); i++) {
+            distance = coordinates.distance(team.get(i).coordinates);
+            if (distance < closestD & team.get(i).hp > 0)
+                closestD = distance;
+        }
+        return closestD;
+    }
+
 }

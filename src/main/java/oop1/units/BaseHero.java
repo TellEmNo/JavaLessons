@@ -9,6 +9,7 @@ import oop1.InGameInterface;
 import oop1.Name;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 public abstract class BaseHero implements InGameInterface {
@@ -16,11 +17,11 @@ public abstract class BaseHero implements InGameInterface {
     protected String name;
     protected float hp;
     protected float maxHp;
-    protected int arrows;
     protected int initiative;
     protected int speed;
     protected double attackRange;
-
+    protected int arrows;
+    protected int maxArrows;
     protected String state = "Stand";
     Coordinates coordinates;
 
@@ -31,6 +32,8 @@ public abstract class BaseHero implements InGameInterface {
         this.initiative = initiative;
         this.speed = speed;
         this.attackRange = attackRange;
+        this.arrows = arrows;
+        this.maxArrows = arrows;
         this.state = state;
         coordinates = new Coordinates(x, y);
     }
@@ -44,6 +47,10 @@ public abstract class BaseHero implements InGameInterface {
 
     public float getHp() {
         return hp;
+    }
+
+    public float getMaxHp() {
+        return maxHp;
     }
 
     public int getInitiative() {
@@ -68,6 +75,22 @@ public abstract class BaseHero implements InGameInterface {
         target.getDamage((damage));
     }
 
+    public String getInfo() {
+        return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + "," + " Hp: " + this.hp);
+    }
+
+    public double getAttackRange() {
+        return attackRange;
+    }
+
+    public int getArrows() {
+        return arrows;
+    }
+
+    public int getMaxArrows() {
+        return maxArrows;
+    }
+
     public float luck() {
         float damageModifier = 0;
         int indicator = new Random().nextInt(1, 101);
@@ -78,12 +101,30 @@ public abstract class BaseHero implements InGameInterface {
         return damageModifier;
     }
 
-    public String getInfo() {
-        return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + "," + " Hp: " + this.hp);
+    public BaseHero checkMinHP(ArrayList<BaseHero> alliedTeam){
+        BaseHero currentAlly = null;
+        float minHP = Float.MAX_VALUE;
+        for (BaseHero hero: alliedTeam){
+            if (hero.getHp() < minHP){
+                minHP = hero.getHp();
+                currentAlly = hero;
+            }
+        }
+        return currentAlly;
     }
 
-    public double getAttackRange() {
-        return attackRange;
+    public BaseHero checkMinArrows(ArrayList<BaseHero> alliedTeam){
+        ArrayList<RangedHeroes> rHeroes;
+        BaseHero currentAlly = null;
+        int minArrows = Integer.MAX_VALUE;
+        for (int i = 0; i < alliedTeam.size(); i++){
+            if (alliedTeam.get(i) instanceof RangedHeroes & alliedTeam.get(i).getArrows() < minArrows){
+                minArrows = alliedTeam.get(i).getArrows();
+                currentAlly = alliedTeam.get(i);
+            }
+//            else return alliedTeam.get(i);
+        }
+        return currentAlly;
     }
 
     @Override
@@ -119,7 +160,7 @@ public abstract class BaseHero implements InGameInterface {
     }
 
     @Override
-    public void closestEnemyInfo(ArrayList<BaseHero> team){
+    public void closestCharacterInfo(ArrayList<BaseHero> team){
         Double closestD = Double.MAX_VALUE;
         Double dist;
         String heroType = null;
@@ -127,11 +168,11 @@ public abstract class BaseHero implements InGameInterface {
         String res = null;
         for (int i = 0; i < team.size(); i++){
             dist = coordinates.distance(team.get(i).coordinates);
-            if (dist < closestD & team.get(i).hp > 0) {
+            if (dist < closestD & dist != 0 & team.get(i).hp > 0) {
                 closestD = dist;
                 heroType = team.get(i).getClass().getSimpleName();
                 heroName = team.get(i).name;
-                res = String.format( "Противник - %s, класс: %s, hp: %.1f, находится на расстоянии: %.2f "
+                res = String.format( "Цель - %s, класс: %s, hp: %.1f, находится на расстоянии: %.2f "
                         , heroName, heroType, team.get(i).hp, closestD);
             }
             else if (team.get(i).hp <= 0) {

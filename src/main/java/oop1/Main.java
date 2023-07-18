@@ -55,9 +55,10 @@ public class Main {
         battle.sort(Comparator.comparingInt(BaseHero::getInitiative).reversed());
 
         for (int i = 0; i < 5; i++) {
-            System.out.println("__________________________________________________________________________________________");
+            System.out.println("________________________________________________________________________________________");
+            System.out.println("РАУНД " + (i+1));
             battle.forEach(n -> n.step(team1, team2, n.distanceTo(team2), n.getAttackRange()));
-            System.out.println("__________________________________________________________________________________________");
+            System.out.println("________________________________________________________________________________________");
         }
         System.out.println("Команда №1: ");
         for (int i = 0; i < team1.size(); i++) {

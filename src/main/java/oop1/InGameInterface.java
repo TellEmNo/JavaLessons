@@ -9,7 +9,7 @@ public interface InGameInterface {
 //    void step(ArrayList<BaseHero> battle);
     String getInfo();
     BaseHero closestEnemy(ArrayList<BaseHero> baseHeroes);
-    void closestEnemyInfo(ArrayList<BaseHero> enemyTeam);
+    void closestCharacterInfo(ArrayList<BaseHero> enemyTeam);
     Double distanceTo(ArrayList<BaseHero> enemyTeam);
     void move(double distance, BaseHero target);
 }

@@ -31,6 +31,39 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
+        ArrayList<BaseHero> tmp;
+        if(super.hp > 0){
+            if(dist > 0)
+                tmp = enemyTeam;
+            else
+                tmp = alliedTeam;
+//            if(alliedTeam.contains(Peasant.class)) return;
+//            else if(alliedTeam.contains(Plowman.class)) return;
+            BaseHero currentEnemy = closestEnemy(tmp);
+            if(distanceTo(tmp) > attackRange) {
+                closestCharacterInfo(tmp);
+                move(distanceTo(tmp), currentEnemy);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name
+                        + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
+                        + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
+                if(distanceTo(tmp) < attackRange) {
+                    System.out.println(super.getClass().getSimpleName() + " " + super.name + " бьёт копьём! ...");
+                    attack(currentEnemy);
+                    closestCharacterInfo(tmp);
+                }
+            }
+            else {
+                closestCharacterInfo(tmp);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name + " бьёт копьём! ...");
+                attack(currentEnemy);
+                closestCharacterInfo(tmp);
+            }
+        }
+        else return;
+    }
+
+    @Override
     public BaseHero create2() {
         return new Spearman();
     }

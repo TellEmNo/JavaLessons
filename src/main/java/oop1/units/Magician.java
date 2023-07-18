@@ -14,6 +14,7 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
                 new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 10);
         this.mana = new Random().nextInt(100, 130);
         this.maxMana = this.mana;
+        super.arrows = 0;
     }
 
     @Override
@@ -38,13 +39,17 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     public void heal(BaseHero target){
         float luck = super.luck();
         float hp;
-        if (this.mana > 0) {
-            hp = new Random().nextInt(5, 8);
+        if (this.mana - 5 > 0) {
+            hp = new Random().nextInt(5, 11);
         }
-        else hp = 0;
+        else {
+            hp = 0;
+            restoreMana();
+        }
         target.getHeal((hp*luck));
         this.mana -= hp;
-        if ((hp * luck) > 7) System.out.println(name+": Удачное лечение!");
+        System.out.println("Цель излечена на " + (hp*luck) + " | HP: " + target.getHp());
+        if ((hp * luck) > 10) System.out.println(name+": Удачное лечение!");
         else if ((hp * luck) < 5) System.out.println(name+": Неудачное лечение!");
     }
 
@@ -57,20 +62,39 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     @Override
     public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
         ArrayList<BaseHero> tmp;
-        if(dist > 0) tmp = enemyTeam;
-        else tmp = alliedTeam;
-        BaseHero currentEnemy = closestEnemy(tmp);
-        if(super.hp > 0 & distanceTo(tmp) < attackRange){
-            closestEnemyInfo(tmp);
-            System.out.println(super.getClass().getSimpleName()+ " " + super.name + " запускает огненный шар! ...");
-            attack(currentEnemy);
-            closestEnemyInfo(tmp);
-        } else if (super.hp > 0 & distanceTo(tmp) > attackRange) {
-            move(distanceTo(tmp), currentEnemy);
-            System.out.println(super.getClass().getSimpleName() + " " + super.name
-                    + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
-                    + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-        } else return;
+        ArrayList<BaseHero> tmpHeal;
+        String res;
+        if (super.hp > 0) {
+            if (dist > 0) {
+                tmp = enemyTeam;
+                tmpHeal = alliedTeam;
+            } else {
+                tmp = alliedTeam;
+                tmpHeal = enemyTeam;
+            }
+            BaseHero currentEnemy = closestEnemy(tmp);
+            BaseHero currentAlly = checkMinHP(tmpHeal);
+            if (checkMinHP(tmpHeal).getHp() < 55 & !(currentAlly instanceof Magician) & !(currentAlly instanceof Plowman)
+                    & !tmp.contains(currentAlly)) {
+                res = String.format( "Цель лечения - %s, класс: %s, hp: %.1f"
+                        , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
+                System.out.println(res);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name + " лечит "
+                        + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
+                heal(currentAlly);
+            } else if (super.hp > 0 & distanceTo(tmp) < attackRange) {
+                closestCharacterInfo(tmp);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name + " запускает огненный шар! ...");
+                attack(currentEnemy);
+                closestCharacterInfo(tmp);
+            } else if (super.hp > 0 & distanceTo(tmp) > attackRange) {
+                closestCharacterInfo(tmp);
+                move(distanceTo(tmp), currentEnemy);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name
+                        + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
+                        + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
+            }
+        }else return;
     }
 
     @Override

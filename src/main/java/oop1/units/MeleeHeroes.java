@@ -1,6 +1,5 @@
 package oop1.units;
 
-import oop1.Coordinates;
 import oop1.InGameInterface;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
 //    protected float rage;
     public MeleeHeroes(String name, float hp, int speed, int initiative, int x, int y, double attackRange) {
         super(name, hp, speed, initiative, x, y, attackRange);
+        super.arrows = 0;
     }
 
     @Override
@@ -29,11 +29,11 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
                 tmp = enemyTeam;
             else
                 tmp = alliedTeam;
-            if(alliedTeam.contains(Peasant.class)) return;
-            else if(alliedTeam.contains(Plowman.class)) return;
+//            if(alliedTeam.contains(Peasant.class)) return;
+//            else if(alliedTeam.contains(Plowman.class)) return;
             BaseHero currentEnemy = closestEnemy(tmp);
-            closestEnemyInfo(tmp);
             if(distanceTo(tmp) > 1.42) {
+                closestCharacterInfo(tmp);
                 move(distanceTo(tmp), currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
@@ -41,13 +41,15 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
                 if(distanceTo(tmp) < 1.42) {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
                     attack(currentEnemy);
+                    closestCharacterInfo(tmp);
                 }
             }
             else {
+                closestCharacterInfo(tmp);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
                 attack(currentEnemy);
+                closestCharacterInfo(tmp);
             }
-            closestEnemyInfo(tmp);
         }
         else return;
     }

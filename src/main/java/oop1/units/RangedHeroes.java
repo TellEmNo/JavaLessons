@@ -3,7 +3,6 @@ package oop1.units;
 import java.util.ArrayList;
 
 public abstract class RangedHeroes extends BaseHero{
-
     public RangedHeroes(String name, float hp, int speed, int initiative, int x, int y, double attackRange) {
         super(name, hp, speed, initiative, x, y, attackRange);
     }
@@ -14,12 +13,13 @@ public abstract class RangedHeroes extends BaseHero{
         if(dist > 0) tmp = enemyTeam;
         else tmp = alliedTeam;
         BaseHero currentEnemy = closestEnemy(tmp);
-        if(super.hp > 0 & super.arrows > 0 & distanceTo(tmp) < attackRange){
-            closestEnemyInfo(tmp);
+        if(super.hp > 0 & this.arrows > 0 & distanceTo(tmp) < attackRange){
+            closestCharacterInfo(tmp);
             System.out.println(super.getClass().getSimpleName()+ " " + super.name + " стреляет! ...");
             attack(currentEnemy);
-            closestEnemyInfo(tmp);
-        } else if (super.hp > 0 & super.arrows > 0 & distanceTo(tmp) > attackRange) {
+            closestCharacterInfo(tmp);
+        } else if (super.hp > 0 & this.arrows > 0 & distanceTo(tmp) > attackRange) {
+            closestCharacterInfo(tmp);
             move(distanceTo(tmp), currentEnemy);
             System.out.println(super.getClass().getSimpleName() + " " + super.name
                     + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name

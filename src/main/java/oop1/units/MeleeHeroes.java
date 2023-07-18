@@ -10,24 +10,19 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
     protected float endurance;
     protected float maxEndurance;
 //    protected float rage;
-    public MeleeHeroes(String name, float hp, int speed, int x, int y) {
-        super(name, hp, speed, x, y);
+    public MeleeHeroes(String name, float hp, int speed, int initiative, int x, int y, double attackRange) {
+        super(name, hp, speed, initiative, x, y, attackRange);
     }
-
-//    public void move(ArrayList<BaseHero> enemyTeam){
-//        Coordinates coord = super.coordinates;
-//
-//
-//    }
 
     @Override
     public String getInfo() {
         return  (super.getInfo()+ "," + " выносливость: " + this.endurance
                 + "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y));
     }
-//    могут взаимодействовать с целью, если дистанция < 1.5
+
+//    могут взаимодействовать с целью, если дистанция < 1.42
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist) {
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
         ArrayList<BaseHero> tmp;
         if(super.hp > 0){
             if(dist > 0)
@@ -38,8 +33,20 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
             else if(alliedTeam.contains(Plowman.class)) return;
             BaseHero currentEnemy = closestEnemy(tmp);
             closestEnemyInfo(tmp);
-            System.out.println(super.getClass().getSimpleName()+ " " + super.name + " наносит удар! ...");
-            attack(currentEnemy);
+            if(distanceTo(tmp) > 1.42) {
+                move(distanceTo(tmp), currentEnemy);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name
+                        + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
+                        + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
+                if(distanceTo(tmp) < 1.42) {
+                    System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
+                    attack(currentEnemy);
+                }
+            }
+            else {
+                System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
+                attack(currentEnemy);
+            }
             closestEnemyInfo(tmp);
         }
         else return;

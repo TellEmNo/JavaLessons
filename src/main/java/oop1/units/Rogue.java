@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
     public Rogue() {
-        super(getName(), new Random().nextInt(65, 80), 9,
-                new Random().nextInt(0, 2) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(65, 80), 7, 9,
+                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 1.42);
         super.endurance = new Random().nextInt(60, 90);
         super.maxEndurance = super.endurance;
     }

@@ -10,8 +10,8 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     protected float concentration;
     protected float maxConcentration;
     public Monk() {
-        super(getName(), new Random().nextInt(100, 150), 4,
-                new Random().nextInt(0, 2) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(100, 150), 4, 4,
+                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 1.42);
         this.concentration = new Random().nextInt(100, 120);
         this.maxConcentration = this.concentration;
     }
@@ -51,7 +51,7 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist) {
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
         ArrayList<BaseHero> tmp;
         if(super.hp > 0){
             if(dist > 0)
@@ -60,8 +60,20 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
                 tmp = alliedTeam;
             BaseHero currentEnemy = closestEnemy(tmp);
             closestEnemyInfo(tmp);
-            System.out.println(super.getClass().getSimpleName()+ " " + super.name + " бьёт ладонью! ...");
-            attack(currentEnemy);
+            if(distanceTo(tmp) > attackRange) {
+                move(distanceTo(tmp), currentEnemy);
+                System.out.println(super.getClass().getSimpleName() + " " + super.name
+                        + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
+                        + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
+                if(distanceTo(tmp) < attackRange) {
+                    System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
+                    attack(currentEnemy);
+                }
+            }
+            else {
+                System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
+                attack(currentEnemy);
+            }
             closestEnemyInfo(tmp);
         }
         else return;

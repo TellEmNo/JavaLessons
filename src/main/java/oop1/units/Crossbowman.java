@@ -9,8 +9,8 @@ import java.util.Random;
 public class Crossbowman extends RangedHeroes implements InGameInterface, RandomHS {
 
     public Crossbowman() {
-        super(getName(), new Random().nextInt(60, 85), 5,
-                new Random().nextInt(8, 10) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(60, 85), 3, 5,
+                new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 8);
         super.arrows = new Random().nextInt(7, 10);
     }
 

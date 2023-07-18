@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
     public Plowman() {
-        super(getName(), new Random().nextInt(40, 50), 6,
-                new Random().nextInt(8, 10) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(40, 50), 4, 6,
+                new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 1.42);
         super.endurance = new Random().nextInt(40, 50);
         super.maxEndurance = super.endurance;
     }

@@ -9,8 +9,8 @@ import java.util.Random;
 public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
 
     public Spearman() {
-        super(getName(), new Random().nextInt(100, 150), 7,
-                new Random().nextInt(8, 10) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(100, 150), 5, 7,
+                new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 2);
         super.endurance = new Random().nextInt(100, 130);
         super.maxEndurance = super.endurance;
     }

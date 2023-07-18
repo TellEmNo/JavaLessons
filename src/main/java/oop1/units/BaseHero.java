@@ -9,7 +9,6 @@ import oop1.InGameInterface;
 import oop1.Name;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public abstract class BaseHero implements InGameInterface {
@@ -18,15 +17,20 @@ public abstract class BaseHero implements InGameInterface {
     protected float hp;
     protected float maxHp;
     protected int arrows;
+    protected int initiative;
     protected int speed;
+    protected double attackRange;
+
     protected String state = "Stand";
     Coordinates coordinates;
 
-    public BaseHero(String name, float hp, int speed, int x, int y) {
+    public BaseHero(String name, float hp, int speed, int initiative, int x, int y, double attackRange) {
         this.name = name;
         this.hp = hp;
         this.maxHp = hp;
+        this.initiative = initiative;
         this.speed = speed;
+        this.attackRange = attackRange;
         this.state = state;
         coordinates = new Coordinates(x, y);
     }
@@ -42,8 +46,8 @@ public abstract class BaseHero implements InGameInterface {
         return hp;
     }
 
-    public int getSpeed() {
-        return speed;
+    public int getInitiative() {
+        return initiative;
     }
 
     protected void getHeal(float hp) {
@@ -76,6 +80,42 @@ public abstract class BaseHero implements InGameInterface {
 
     public String getInfo() {
         return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + "," + " Hp: " + this.hp);
+    }
+
+    public double getAttackRange() {
+        return attackRange;
+    }
+
+    @Override
+    public void move(double distance, BaseHero target){
+        int tmp;
+        if (distance > 1.42){
+            if (this.coordinates.x + this.speed > target.coordinates.x || this.coordinates.x - target.coordinates.x == 0) {
+                tmp = this.coordinates.x + this.speed - target.coordinates.x;
+                this.coordinates.x = this.coordinates.x + this.speed - tmp - 1;
+            }
+            else if(this.coordinates.x < target.coordinates.x) this.coordinates.x = this.coordinates.x + this.speed;
+            else if (this.coordinates.y + this.speed > target.coordinates.y || this.coordinates.y - target.coordinates.y == 0) {
+                tmp = this.coordinates.y + this.speed - target.coordinates.y;
+                this.coordinates.y = this.coordinates.y + this.speed - tmp - 1;
+            }
+            else if(this.coordinates.y < target.coordinates.y) this.coordinates.y = this.coordinates.y + this.speed;
+            else if (this.coordinates.x - this.speed < target.coordinates.x || this.coordinates.x - target.coordinates.x == 0) {
+                tmp = this.coordinates.x - this.speed - target.coordinates.x;
+                this.coordinates.x = this.coordinates.x - this.speed - tmp + 1;
+            }
+            else if(this.coordinates.x > target.coordinates.x) this.coordinates.x = this.coordinates.x - this.speed;
+            else if (this.coordinates.y + this.speed < target.coordinates.y || this.coordinates.y - target.coordinates.y == 0) {
+                tmp = this.coordinates.y - this.speed - target.coordinates.y;
+                this.coordinates.y = this.coordinates.y - this.speed - tmp + 1;
+            }
+            else if(this.coordinates.y > target.coordinates.y) this.coordinates.y = this.coordinates.y - this.speed;
+        }
+        if (this.coordinates.x > 10) this.coordinates.x = 10;
+        else if (this.coordinates.y > 10)  this.coordinates.y = 10;
+        else if (this.coordinates.x < 0)  this.coordinates.x = 0;
+        else if (this.coordinates.y < 0)  this.coordinates.y = 0;
+
     }
 
     @Override

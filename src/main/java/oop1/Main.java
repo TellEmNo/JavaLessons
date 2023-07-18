@@ -3,7 +3,6 @@ package oop1;
 import oop1.units.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Main {
@@ -53,12 +52,13 @@ public class Main {
         battle.addAll(team1);
         battle.addAll(team2);
 
-        battle.sort(Comparator.comparingInt(BaseHero::getSpeed).reversed());
+        battle.sort(Comparator.comparingInt(BaseHero::getInitiative).reversed());
 
-        System.out.println("__________________________________________________________________________________________");
-        battle.forEach(n -> n.step(team1, team2, n.distanceTo(team2)));
-        System.out.println("__________________________________________________________________________________________");
-
+        for (int i = 0; i < 5; i++) {
+            System.out.println("__________________________________________________________________________________________");
+            battle.forEach(n -> n.step(team1, team2, n.distanceTo(team2), n.getAttackRange()));
+            System.out.println("__________________________________________________________________________________________");
+        }
         System.out.println("Команда №1: ");
         for (int i = 0; i < team1.size(); i++) {
             System.out.println(team1.get(i).getInfo());

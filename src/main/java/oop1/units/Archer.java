@@ -9,8 +9,8 @@ import java.util.Random;
 public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
 
     public Archer(){
-        super(getName(), new Random().nextInt(60, 75), 5,
-                new Random().nextInt(0, 2) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(60, 75), 3, 5,
+                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 7);
         super.arrows = new Random().nextInt(8, 11);
     }
 

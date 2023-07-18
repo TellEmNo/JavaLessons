@@ -10,8 +10,8 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     protected float mana;
     protected float maxMana;
     public Magician() {
-        super(getName(), new Random().nextInt(60, 75), 3,
-                new Random().nextInt(8, 10) ,new Random().nextInt(10));
+        super(getName(), new Random().nextInt(60, 75), 3, 3,
+                new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 10);
         this.mana = new Random().nextInt(100, 130);
         this.maxMana = this.mana;
     }
@@ -22,7 +22,10 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
         if (this.mana > 0){
             damage = new Random().nextInt(15, 21);
         }
-        else damage = 0;
+        else {
+            damage = 0;
+            restoreMana();
+        }
         target.getDamage((damage));
         this.mana -= damage * 2;
     }
@@ -52,20 +55,22 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist) {
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
         ArrayList<BaseHero> tmp;
-        if(super.hp > 0){
-            if(dist > 0)
-                tmp = enemyTeam;
-            else
-                tmp = alliedTeam;
-            BaseHero currentEnemy = closestEnemy(tmp);
+        if(dist > 0) tmp = enemyTeam;
+        else tmp = alliedTeam;
+        BaseHero currentEnemy = closestEnemy(tmp);
+        if(super.hp > 0 & distanceTo(tmp) < attackRange){
             closestEnemyInfo(tmp);
             System.out.println(super.getClass().getSimpleName()+ " " + super.name + " запускает огненный шар! ...");
             attack(currentEnemy);
             closestEnemyInfo(tmp);
-        }
-        else return ;
+        } else if (super.hp > 0 & distanceTo(tmp) > attackRange) {
+            move(distanceTo(tmp), currentEnemy);
+            System.out.println(super.getClass().getSimpleName() + " " + super.name
+                    + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
+                    + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
+        } else return;
     }
 
     @Override

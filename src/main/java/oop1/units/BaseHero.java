@@ -76,7 +76,13 @@ public abstract class BaseHero implements InGameInterface {
     }
 
     public String getInfo() {
-        return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + "," + " Hp: " + this.hp);
+        return ("Герой " + this.name + "," + " Type: " + this.getClass().getSimpleName() + ", Hp: " + this.hp
+                + ", инициатива: " + this.initiative + ", скорость: " + this.speed);
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 
     public double getAttackRange() {
@@ -175,8 +181,9 @@ public abstract class BaseHero implements InGameInterface {
                         , heroName, heroType, team.get(i).hp, closestD);
             }
             else if (team.get(i).hp <= 0) {
-                System.out.println("Противник " + team.get(i).name + " погиб в бою!");
-                team.remove(team.get(i));
+                team.get(i).hp = 0;
+//                System.out.println("Противник " + team.get(i).name + " погиб в бою!");
+//                team.remove(team.get(i));
             }
         }
         System.out.println(res);
@@ -209,4 +216,10 @@ public abstract class BaseHero implements InGameInterface {
         return closestD;
     }
 
+    public int[] getCoords() {
+        int[] coordxy = new int[2];
+        coordxy[0] = coordinates.x;
+        coordxy[1] = coordinates.y;
+        return coordxy;
+    }
 }

@@ -68,26 +68,26 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
             BaseHero currentAlly = checkMinHP(tmpHeal);
 
             if (checkMinHP(tmpHeal).getHp() < 40 & !(currentAlly instanceof Monk) & !(currentAlly instanceof Peasant)
-            & !tmp.contains(currentAlly)) {
+            & !tmp.contains(currentAlly) & currentAlly.hp != 0) {
                 res = String.format( "Цель лечения - %s, класс: %s, hp: %.1f"
                         , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
                 System.out.println(res);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " молится за "
                         + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
                 heal(currentAlly);
-            } else if(distanceTo(tmp) > attackRange) {
+            } else if(distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
                 closestCharacterInfo(tmp);
                 move(distanceTo(tmp), currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-                if(distanceTo(tmp) < attackRange) {
+                if(distanceTo(tmp) < attackRange & currentEnemy.hp != 0) {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар посохом! ...");
                     attack(currentEnemy);
                     closestCharacterInfo(tmp);
                 }
             }
-            else {
+            else if ( currentEnemy.hp != 0){
                 closestCharacterInfo(tmp);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар посохом! ...");
                 attack(currentEnemy);

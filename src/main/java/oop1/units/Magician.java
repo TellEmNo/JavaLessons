@@ -77,20 +77,20 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
             }
             BaseHero currentEnemy = closestEnemy(tmp);
             BaseHero currentAlly = checkMinHP(tmpHeal);
-            if (checkMinHP(tmpHeal).getHp() < 55 & !(currentAlly instanceof Magician) & !(currentAlly instanceof Plowman)
-                    & !tmp.contains(currentAlly)) {
+            if (checkMinHP(tmpHeal).getHp() < 55 & !(currentAlly instanceof Magician)
+                    & !(currentAlly instanceof Plowman) & !tmp.contains(currentAlly) & currentAlly.hp != 0) {
                 res = String.format( "Цель лечения - %s, класс: %s, hp: %.1f"
                         , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
                 System.out.println(res);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " лечит "
                         + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
                 heal(currentAlly);
-            } else if (super.hp > 0 & distanceTo(tmp) < attackRange) {
+            } else if (super.hp > 0 & distanceTo(tmp) < attackRange & currentEnemy.hp != 0) {
                 closestCharacterInfo(tmp);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " запускает огненный шар! ...");
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
-            } else if (super.hp > 0 & distanceTo(tmp) > attackRange) {
+            } else if (super.hp > 0 & distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
                 closestCharacterInfo(tmp);
                 move(distanceTo(tmp), currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name

@@ -46,34 +46,36 @@ public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
             BaseHero currentEnemy = closestEnemy(tmp);
             BaseHero currentAlly = checkMinHP(tmpHeal);
             BaseHero currentRAlly = checkMinArrows(tmpHeal);
-            if (currentRAlly instanceof RangedHeroes && currentRAlly.arrows < 7) {
+            if (currentRAlly instanceof RangedHeroes && currentRAlly.arrows < 7 & currentRAlly.hp != 0) {
                 res = String.format("Цель - %s, класс: %s, hp: %.1f"
                         , currentAlly.name, currentRAlly.getClass().getSimpleName(), currentRAlly.hp);
                 System.out.println(res);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " подаёт болт "
                         + currentRAlly.getClass().getSimpleName() + " " + currentRAlly.name);
+                System.out.println();
                 bringAnArrow(currentRAlly);
                 currentRAlly.getInfo();
             } else {
-                if (checkMinHP(tmpHeal).getHp() < checkMinHP(tmpHeal).getMaxHp() & !(currentAlly instanceof Plowman)) {
+                if (checkMinHP(tmpHeal).getHp() < checkMinHP(tmpHeal).getMaxHp()
+                        & !(currentAlly instanceof Plowman) & currentAlly.hp != 0) {
                     res = String.format("Цель лечения - %s, класс: %s, hp: %.1f"
                             , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
                     System.out.println(res);
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " лечит "
                             + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
                     woundDressing(currentAlly);
-                } else if (distanceTo(tmp) > attackRange) {
+                } else if (distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
                     closestCharacterInfo(tmp);
                     move(distanceTo(tmp), currentEnemy);
                     System.out.println(super.getClass().getSimpleName() + " " + super.name
                             + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                             + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-                    if (distanceTo(tmp) < attackRange) {
+                    if (distanceTo(tmp) < attackRange & currentEnemy.hp != 0) {
                         System.out.println(super.getClass().getSimpleName() + " " + super.name + " тычет вилами! ...");
                         attack(currentEnemy);
                         closestCharacterInfo(tmp);
                     }
-                } else {
+                } else if ( currentEnemy.hp != 0){
                     closestCharacterInfo(tmp);
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " тычет вилами! ...");
                     attack(currentEnemy);

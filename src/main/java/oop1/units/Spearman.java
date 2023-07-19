@@ -19,13 +19,13 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
         float luck = super.luck();
         float damage;
 
-        if (super.endurance > 0){
-            damage = new Random().nextInt(11, 15);
+        if (super.endurance - 15> 0){
+            damage = new Random().nextInt(11, 16);
         }
         else damage = 0;
 
         target.getDamage((damage * luck));
-        super.endurance -= damage * 0.4;
+        super.endurance -= damage * 0.8;
         if ((damage * luck) > 14) System.out.println(name+": Удачный удар!");
         else if ((damage * luck) < 11) System.out.println(name+": Неудачный удар!");
     }
@@ -59,6 +59,7 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            System.out.println();
         }
         else return;
     }

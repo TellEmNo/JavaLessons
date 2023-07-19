@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Main {
+        public static ArrayList<BaseHero> team1 = new ArrayList<>();
+        public static ArrayList<BaseHero> team2 = new ArrayList<>();
+        public static ArrayList<BaseHero> battle = new ArrayList<>();
     public static void main(String[] args) {
-        ArrayList<BaseHero> team1 = new ArrayList<>();
-        ArrayList<BaseHero> team2 = new ArrayList<>();
 
 //        for (int i = 0; i < 10; i++) {
 //            int val = new Random().nextInt(7);
@@ -48,7 +49,6 @@ public class Main {
             System.out.println(team2.get(j).getInfo());
         }
 
-        ArrayList<BaseHero> battle = new ArrayList<>();
         battle.addAll(team1);
         battle.addAll(team2);
 

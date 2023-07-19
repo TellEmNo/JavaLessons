@@ -18,13 +18,13 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
         float luck = this.luck();
         float damage;
 
-        if (super.endurance > 0){
+        if (super.endurance - 19 > 0){
             damage = new Random().nextInt(19, 20);
         }
         else damage = 0;
 
         target.getDamage((damage * luck));
-        super.endurance -= damage * 0.2;
+        super.endurance -= damage * 0.4;
         if ((damage * luck) > 19) System.out.println(name+": Удачный удар!");
         else if ((damage * luck) < 19) System.out.println(name+": Неудачный удар!");
     }
@@ -69,6 +69,7 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            System.out.println();
         }
         else return;
     }

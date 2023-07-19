@@ -17,12 +17,12 @@ public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
     public void woundDressing(BaseHero target){
         float luck = super.luck();
         float hp;
-        if (this.endurance > 0) {
+        if (this.endurance - 10 > 0) {
             hp = new Random().nextInt(5, 11);
         }
         else hp = 0;
         target.getHeal((hp*luck));
-        this.endurance -= hp;
+        this.endurance -= hp * 0.8;
         System.out.println("Цель излечена на " + (hp*luck) + " | HP: " + target.getHp());
         if ((hp * luck) > 10) System.out.println(name+": Удачная перевязка раны!");
         else if ((hp * luck) < 5) System.out.println(name+": Неудачная перевязка раны!");
@@ -79,6 +79,7 @@ public class Plowman extends MeleeHeroes implements InGameInterface, RandomHS {
                     attack(currentEnemy);
                     closestCharacterInfo(tmp);
                 }
+                System.out.println();
             }
         }
         else return;

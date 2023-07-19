@@ -29,8 +29,6 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
                 tmp = enemyTeam;
             else
                 tmp = alliedTeam;
-//            if(alliedTeam.contains(Peasant.class)) return;
-//            else if(alliedTeam.contains(Plowman.class)) return;
             BaseHero currentEnemy = closestEnemy(tmp);
             if(distanceTo(tmp) > 1.42) {
                 closestCharacterInfo(tmp);
@@ -50,6 +48,7 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            System.out.println();
         }
         else return;
     }

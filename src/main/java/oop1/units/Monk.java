@@ -20,14 +20,13 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     public void attack(BaseHero target) {
         float luck = super.luck();
         float damage;
-
-        if (this.concentration > 0){
-            damage = new Random().nextInt(11, 15);
+        if (this.concentration - 15 > 0){
+            damage = new Random().nextInt(11, 16);
         }
         else damage = 0;
 
         target.getDamage((damage * luck));
-        this.concentration -= damage * 0.5;
+        this.concentration -= damage * 0.7;
         if ((damage * luck) > 15) System.out.println(name+": Удачный удар!");
         else if ((damage * luck) < 11) System.out.println(name+": Неудачный удар!");
     }
@@ -35,8 +34,8 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     public void heal(BaseHero target){
         float luck = super.luck();
         float hp;
-        if (this.concentration - 8 > 0) {
-            hp = new Random().nextInt(8, 16);
+        if (this.concentration - 18 > 0) {
+            hp = new Random().nextInt(9, 19);
         }
         else hp = 0;
         target.getHeal((hp*luck));
@@ -94,6 +93,7 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            System.out.println();
         }
         else return;
     }

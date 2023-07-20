@@ -19,14 +19,15 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
         float damage;
 
         if (super.endurance - 19 > 0){
-            damage = new Random().nextInt(19, 20);
+            damage = new Random().nextInt(10, 16);
         }
         else damage = 0;
 
-        target.getDamage((damage * luck));
+        System.out.println(target.getDamage((damage * luck)));
+
         super.endurance -= damage * 0.4;
-        if ((damage * luck) > 19) System.out.println(name+": Удачный удар!");
-        else if ((damage * luck) < 19) System.out.println(name+": Неудачный удар!");
+        if ((damage * luck) > 15) System.out.println(name+": Удачный удар!");
+        else if ((damage * luck) < 10) System.out.println(name+": Неудачный удар!");
     }
 
     @Override
@@ -48,17 +49,16 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
                 tmp = enemyTeam;
             else
                 tmp = alliedTeam;
-//            if(alliedTeam.contains(Peasant.class)) return;
-//            else if(alliedTeam.contains(Plowman.class)) return;
             BaseHero currentEnemy = closestEnemy(tmp);
             if(distanceTo(tmp) > attackRange) {
                 closestCharacterInfo(tmp);
-                move(distanceTo(tmp), currentEnemy);
+                move(distanceTo(tmp) ,currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
                 if(distanceTo(tmp) < attackRange) {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар исподтишка! ...");
+                    attack(currentEnemy);
                     attack(currentEnemy);
                     closestCharacterInfo(tmp);
                 }
@@ -67,8 +67,11 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
                 closestCharacterInfo(tmp);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар исподтишка! ...");
                 attack(currentEnemy);
+                attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            if (currentEnemy.hp == 0)
+                System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
             System.out.println();
         }
         else return;

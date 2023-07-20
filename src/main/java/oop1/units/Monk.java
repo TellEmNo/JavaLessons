@@ -25,7 +25,8 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
         }
         else damage = 0;
 
-        target.getDamage((damage * luck));
+        System.out.println(target.getDamage((damage * luck)));
+
         this.concentration -= damage * 0.7;
         if ((damage * luck) > 15) System.out.println(name+": Удачный удар!");
         else if ((damage * luck) < 11) System.out.println(name+": Неудачный удар!");
@@ -77,7 +78,7 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
                 heal(currentAlly);
             } else if(distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
                 closestCharacterInfo(tmp);
-                move(distanceTo(tmp), currentEnemy);
+                move(distanceTo(tmp) ,currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
@@ -93,6 +94,8 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            if (currentEnemy.hp == 0)
+                System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
             System.out.println();
         }
         else return;

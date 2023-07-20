@@ -21,24 +21,16 @@ public abstract class RangedHeroes extends BaseHero{
                 closestCharacterInfo(tmp);
             } else if (super.hp > 0 & this.arrows > 0 & distanceTo(tmp) > attackRange) {
                 closestCharacterInfo(tmp);
-                move(distanceTo(tmp), currentEnemy);
+                move(distanceTo(tmp) ,currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
             }
+            if (currentEnemy.hp == 0)
+                System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
             System.out.println();
         }
         else return;
     }
 
-//    public void attack(BaseHero target) {
-//        float damage;
-//        if (this.arrows > 0){
-//        damage = new Random().nextInt(10, 20);
-//        }
-//        else damage = 0;
-//
-//        target.getDamage(damage);
-//        --this.arrows;
-//    }
 }

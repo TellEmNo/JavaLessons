@@ -22,7 +22,7 @@ public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
             damage = new Random().nextInt(10, 13);
         }
         else damage = 0;
-        target.getDamage((damage * luck));
+        System.out.println(target.getDamage((damage * luck)));
         --this.arrows;
         if ((damage * luck) > 13) System.out.println(name+": Удачный выстрел!");
         else if ((damage * luck) < 10) System.out.println(name+": Неудачный выстрел!");

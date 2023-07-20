@@ -24,9 +24,10 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
         }
         else damage = 0;
 
-        target.getDamage((damage * luck));
+        System.out.println(target.getDamage((damage * luck)));
+
         super.endurance -= damage * 0.8;
-        if ((damage * luck) > 14) System.out.println(name+": Удачный удар!");
+        if ((damage * luck) > 15) System.out.println(name+": Удачный удар!");
         else if ((damage * luck) < 11) System.out.println(name+": Неудачный удар!");
     }
 
@@ -38,12 +39,10 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
                 tmp = enemyTeam;
             else
                 tmp = alliedTeam;
-//            if(alliedTeam.contains(Peasant.class)) return;
-//            else if(alliedTeam.contains(Plowman.class)) return;
             BaseHero currentEnemy = closestEnemy(tmp);
             if(distanceTo(tmp) > attackRange) {
                 closestCharacterInfo(tmp);
-                move(distanceTo(tmp), currentEnemy);
+                move(distanceTo(tmp) ,currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
@@ -59,6 +58,8 @@ public class Spearman extends MeleeHeroes implements InGameInterface, RandomHS {
                 attack(currentEnemy);
                 closestCharacterInfo(tmp);
             }
+            if (currentEnemy.hp == 0)
+                System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
             System.out.println();
         }
         else return;

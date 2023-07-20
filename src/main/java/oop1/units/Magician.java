@@ -28,7 +28,7 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
             damage = 0;
             restoreMana();
         }
-        target.getDamage((damage * luck));
+        System.out.println(target.getDamage((damage * luck)));
         this.mana -= damage * 1.2;
         if ((damage * luck) > 20) System.out.println(name+": Удачное заклинание!");
         else if ((damage * luck) < 15) System.out.println(name+": Неудачное заклинание!");
@@ -68,7 +68,7 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
         ArrayList<BaseHero> tmpHeal;
         String res;
         if (super.hp > 0) {
-            if (dist > 0) {
+            if (dist != 0) {
                 tmp = enemyTeam;
                 tmpHeal = alliedTeam;
             } else {
@@ -92,13 +92,16 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
                 closestCharacterInfo(tmp);
             } else if (super.hp > 0 & distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
                 closestCharacterInfo(tmp);
-                move(distanceTo(tmp), currentEnemy);
+                move(distanceTo(tmp) ,currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
             }
+            if (currentEnemy.hp == 0)
+                System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
             System.out.println();
-        }else return;
+        }
+        else return;
     }
 
     @Override

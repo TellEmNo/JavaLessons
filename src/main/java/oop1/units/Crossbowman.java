@@ -22,7 +22,7 @@ public class Crossbowman extends RangedHeroes implements InGameInterface, Random
             damage = new Random().nextInt(11, 15);
         }
         else damage = 0;
-        target.getDamage((damage * luck));
+        System.out.println(target.getDamage((damage * luck)));
         --this.arrows;
         if ((damage * luck) > 15) System.out.println(name+": Удачный выстрел!");
         else if ((damage * luck) < 11) System.out.println(name+": Неудачный выстрел!");

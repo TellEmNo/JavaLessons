@@ -32,7 +32,7 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
             BaseHero currentEnemy = closestEnemy(tmp);
             if(distanceTo(tmp) > 1.42) {
                 closestCharacterInfo(tmp);
-                move(distanceTo(tmp), currentEnemy);
+                move(distanceTo(tmp) ,currentEnemy);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);

@@ -53,7 +53,9 @@ public class Main {
         battle.addAll(team2);
 
         battle.sort(Comparator.comparingInt(BaseHero::getInitiative).reversed());
-
+//        for (int i = 0; i < 10; i++) {
+//            battle.forEach(n -> System.out.println(n.distanceTo(team2)));
+//        }
         View.view();
         for (int i = 0; i < 10; i++) {
 //            System.out.println("________________________________________________________________________________________");

@@ -14,6 +14,12 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
         super.maxEndurance = super.endurance;
     }
 
+    @Override
+    public void attack(BaseHero target) {
+        float damage = new Random().nextInt(5, 10);
+        System.out.println(target.getDamage((damage)));
+    }
+
     public void woundDressing(BaseHero target){
         float luck = super.luck();
         float hp;
@@ -68,7 +74,7 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
                     woundDressing(currentAlly);
                 } else if (distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
                     closestCharacterInfo(tmp);
-                    move(distanceTo(tmp), currentEnemy);
+                    move(distanceTo(tmp) ,currentEnemy);
                     System.out.println(super.getClass().getSimpleName() + " " + super.name
                             + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                             + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
@@ -83,6 +89,8 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
                     attack(currentEnemy);
                     closestCharacterInfo(tmp);
                 }
+                if (currentEnemy.hp == 0)
+                    System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
                 System.out.println();
             }
         }

@@ -1,17 +1,15 @@
 package oop1.units;
 
 import oop1.InGameInterface;
-import oop1.RandomHS;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Monk extends BaseHero implements InGameInterface, RandomHS {
+public class Monk extends BaseHero implements InGameInterface {
     protected float concentration;
     protected float maxConcentration;
-    public Monk() {
-        super(getName(), new Random().nextInt(100, 150), 4, 4,
-                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 1.42);
+    public Monk(int x, int y) {
+        super(getName(), new Random().nextInt(100, 150), 2, 4, x, y, 1.42);
         this.concentration = new Random().nextInt(100, 120);
         this.maxConcentration = this.concentration;
         super.arrows = 0;
@@ -53,61 +51,39 @@ public class Monk extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
-        ArrayList<BaseHero> tmp;
-        ArrayList<BaseHero> tmpHeal;
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
         String res;
         if(super.hp > 0){
-            if (dist > 0) {
-                tmp = enemyTeam;
-                tmpHeal = alliedTeam;
-            } else {
-                tmp = alliedTeam;
-                tmpHeal = enemyTeam;
-            }
-            BaseHero currentEnemy = closestEnemy(tmp);
-            BaseHero currentAlly = checkMinHP(tmpHeal);
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            BaseHero currentAlly = checkMinHP(alliedTeam);
 
-            if (checkMinHP(tmpHeal).getHp() < 40 & !(currentAlly instanceof Monk) & !(currentAlly instanceof Peasant)
-            & !tmp.contains(currentAlly) & currentAlly.hp != 0) {
+            if (checkMinHP(alliedTeam).getHp() < 40 & !(currentAlly instanceof Monk) & !(currentAlly instanceof Peasant)
+            & !enemyTeam.contains(currentAlly) & currentAlly.hp != 0) {
                 res = String.format( "Цель лечения - %s, класс: %s, hp: %.1f"
                         , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
                 System.out.println(res);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " молится за "
                         + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
                 heal(currentAlly);
-            } else if(distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
-                closestCharacterInfo(tmp);
-                move(distanceTo(tmp) ,currentEnemy);
+            } else if(distanceTo(enemyTeam) > super.attackRange && currentEnemy.hp != 0) {
+                closestCharacterInfo(enemyTeam);
+                move(alliedTeam, enemyTeam ,currentEnemy.coordinates);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-                if(distanceTo(tmp) < attackRange & currentEnemy.hp != 0) {
+                if(distanceTo(enemyTeam) < super.attackRange && currentEnemy.hp != 0 && distanceTo(enemyTeam) != 0) {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар посохом! ...");
                     attack(currentEnemy);
-                    closestCharacterInfo(tmp);
                 }
             }
-            else if ( currentEnemy.hp != 0){
-                closestCharacterInfo(tmp);
+            else if ( currentEnemy.hp != 0 && distanceTo(enemyTeam) != 0){
+                closestCharacterInfo(enemyTeam);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар посохом! ...");
                 attack(currentEnemy);
-                closestCharacterInfo(tmp);
             }
             if (currentEnemy.hp == 0)
                 System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
-            System.out.println();
         }
-        else return;
-    }
-
-    @Override
-    public BaseHero create1() {
-        return new Monk();
-    }
-
-    @Override
-    public BaseHero create2() {
-        return null;
+        System.out.println();
     }
 }

@@ -22,31 +22,25 @@ public abstract class MeleeHeroes extends BaseHero implements InGameInterface {
 
 //    могут взаимодействовать с целью, если дистанция < 1.42
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
-        ArrayList<BaseHero> tmp;
-        if(super.hp > 0){
-            if(dist > 0)
-                tmp = enemyTeam;
-            else
-                tmp = alliedTeam;
-            BaseHero currentEnemy = closestEnemy(tmp);
-            if(distanceTo(tmp) > 1.42) {
-                closestCharacterInfo(tmp);
-                move(distanceTo(tmp) ,currentEnemy);
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
+        if(super.hp > 0) {
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            BaseHero currentAlly = checkMinHP(alliedTeam);
+            if(distanceTo(enemyTeam) > 1.42) {
+                closestCharacterInfo(enemyTeam);
+                move(alliedTeam, enemyTeam,currentEnemy.coordinates);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-                if(distanceTo(tmp) < 1.42) {
+                if(distanceTo(enemyTeam) < 1.42 && distanceTo(enemyTeam) != 0) {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
                     attack(currentEnemy);
-                    closestCharacterInfo(tmp);
                 }
             }
-            else {
-                closestCharacterInfo(tmp);
+            else if (distanceTo(enemyTeam) != 0){
+                closestCharacterInfo(enemyTeam);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар! ...");
                 attack(currentEnemy);
-                closestCharacterInfo(tmp);
             }
             System.out.println();
         }

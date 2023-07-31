@@ -1,18 +1,16 @@
 package oop1.units;
 
 import oop1.InGameInterface;
-import oop1.RandomHS;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Magician extends BaseHero implements InGameInterface, RandomHS {
+public class Magician extends BaseHero implements InGameInterface {
     protected float mana;
     protected float maxMana;
-    public Magician() {
-        super(getName(), new Random().nextInt(60, 75), 3, 3,
-                new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 10);
-        this.mana = new Random().nextInt(100, 130);
+    public Magician(int x, int y) {
+        super(getName(), new Random().nextInt(60, 75), 1, 3, x, y, 10);
+        this.mana = new Random().nextInt(140, 160);
         this.maxMana = this.mana;
         super.arrows = 0;
     }
@@ -63,54 +61,35 @@ public class Magician extends BaseHero implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
-        ArrayList<BaseHero> tmp;
-        ArrayList<BaseHero> tmpHeal;
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
         String res;
         if (super.hp > 0) {
-            if (dist != 0) {
-                tmp = enemyTeam;
-                tmpHeal = alliedTeam;
-            } else {
-                tmp = alliedTeam;
-                tmpHeal = enemyTeam;
-            }
-            BaseHero currentEnemy = closestEnemy(tmp);
-            BaseHero currentAlly = checkMinHP(tmpHeal);
-            if (checkMinHP(tmpHeal).getHp() < 55 & !(currentAlly instanceof Magician)
-                    & !(currentAlly instanceof Plowman) & !tmp.contains(currentAlly) & currentAlly.hp != 0) {
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            BaseHero currentAlly = checkMinHP(alliedTeam);
+            if (checkMinHP(alliedTeam).getHp() < 55 & !(currentAlly instanceof Magician)
+                    & !(currentAlly instanceof Plowman) & !enemyTeam.contains(currentAlly) & currentAlly.hp != 0) {
                 res = String.format( "Цель лечения - %s, класс: %s, hp: %.1f"
                         , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
                 System.out.println(res);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " лечит "
                         + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
                 heal(currentAlly);
-            } else if (super.hp > 0 & distanceTo(tmp) < attackRange & currentEnemy.hp != 0) {
-                closestCharacterInfo(tmp);
+            } else if (super.hp > 0 & distanceTo(enemyTeam) < super.attackRange & currentEnemy.hp != 0) {
+                closestCharacterInfo(enemyTeam);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " запускает огненный шар! ...");
                 attack(currentEnemy);
-                closestCharacterInfo(tmp);
-            } else if (super.hp > 0 & distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
-                closestCharacterInfo(tmp);
-                move(distanceTo(tmp) ,currentEnemy);
+            } else if (super.hp > 0 & distanceTo(enemyTeam) > super.attackRange & currentEnemy.hp != 0) {
+                closestCharacterInfo(enemyTeam);
+                move(alliedTeam, enemyTeam ,currentEnemy.coordinates);
+                if (currentEnemy.coordinates == super.coordinates && enemyTeam.contains(enemyTeam)) super.coordinates.x--;
+                else super.coordinates.x++;
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
             }
             if (currentEnemy.hp == 0)
                 System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
-            System.out.println();
         }
-        else return;
-    }
-
-    @Override
-    public BaseHero create1() {
-        return null;
-    }
-
-    @Override
-    public BaseHero create2() {
-        return new Magician();
+        System.out.println();
     }
 }

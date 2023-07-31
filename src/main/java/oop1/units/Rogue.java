@@ -1,33 +1,30 @@
 package oop1.units;
 
 import oop1.InGameInterface;
-import oop1.RandomHS;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
-    public Rogue() {
-        super(getName(), new Random().nextInt(65, 80), 7, 9,
-                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 1.42);
+public class Rogue extends MeleeHeroes implements InGameInterface {
+    public Rogue(int x, int y) {
+        super(getName(), new Random().nextInt(65, 80), 3, 9, x ,y, 1.42);
         super.endurance = new Random().nextInt(60, 90);
         super.maxEndurance = super.endurance;
     }
-
     public void attack(BaseHero target) {
         float luck = this.luck();
         float damage;
 
         if (super.endurance - 19 > 0){
-            damage = new Random().nextInt(10, 16);
+            damage = new Random().nextInt(19, 20);
         }
         else damage = 0;
 
         System.out.println(target.getDamage((damage * luck)));
 
         super.endurance -= damage * 0.4;
-        if ((damage * luck) > 15) System.out.println(name+": Удачный удар!");
-        else if ((damage * luck) < 10) System.out.println(name+": Неудачный удар!");
+        if ((damage * luck) > 19) System.out.println(name+": Удачный удар!");
+        else if ((damage * luck) < 19) System.out.println(name+": Неудачный удар!");
     }
 
     @Override
@@ -42,48 +39,32 @@ public class Rogue extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
-        ArrayList<BaseHero> tmp;
-        if(super.hp > 0){
-            if(dist > 0)
-                tmp = enemyTeam;
-            else
-                tmp = alliedTeam;
-            BaseHero currentEnemy = closestEnemy(tmp);
-            if(distanceTo(tmp) > attackRange) {
-                closestCharacterInfo(tmp);
-                move(distanceTo(tmp) ,currentEnemy);
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
+        if(super.hp > 0) {
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            BaseHero currentAlly = checkMinHP(alliedTeam);
+            if (distanceTo(enemyTeam) >super.attackRange) {
+                closestCharacterInfo(enemyTeam);
+                move(alliedTeam, enemyTeam ,currentEnemy.coordinates);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name
                         + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                         + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-                if(distanceTo(tmp) < attackRange) {
+
+                if(distanceTo(enemyTeam) < super.attackRange && distanceTo(enemyTeam) != 0) {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар исподтишка! ...");
                     attack(currentEnemy);
                     attack(currentEnemy);
-                    closestCharacterInfo(tmp);
                 }
             }
-            else {
-                closestCharacterInfo(tmp);
+            else if (distanceTo(enemyTeam ) <= super.attackRange && distanceTo(enemyTeam) != 0){
+                closestCharacterInfo(enemyTeam);
                 System.out.println(super.getClass().getSimpleName() + " " + super.name + " наносит удар исподтишка! ...");
                 attack(currentEnemy);
                 attack(currentEnemy);
-                closestCharacterInfo(tmp);
             }
             if (currentEnemy.hp == 0)
                 System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
-            System.out.println();
         }
-        else return;
-    }
-
-    @Override
-    public BaseHero create1() {
-        return new Rogue();
-    }
-
-    @Override
-    public BaseHero create2() {
-        return null;
+        System.out.println();
     }
 }

@@ -22,8 +22,7 @@ public abstract class BaseHero implements InGameInterface {
     protected double attackRange;
     protected int arrows;
     protected int maxArrows;
-    protected String state = "Stand";
-    Coordinates coordinates;
+    public Coordinates coordinates;
 
     public BaseHero(String name, float hp, int speed, int initiative, int x, int y, double attackRange) {
         this.name = name;
@@ -34,12 +33,14 @@ public abstract class BaseHero implements InGameInterface {
         this.attackRange = attackRange;
         this.arrows = arrows;
         this.maxArrows = arrows;
-        this.state = state;
         coordinates = new Coordinates(x, y);
     }
 
-//    public BaseHero() {this((getName()), new Random().nextInt(100, 200),
-//            new Random().nextInt(0, 2) ,new Random().nextInt(10));}
+    public static int startPositionRangedGreen(){
+        int y = 0;
+        y ++;
+        return y;
+    }
 
     public static String getName() {
         return String.valueOf(Name.values()[new Random().nextInt(Name.values().length)]);
@@ -118,7 +119,6 @@ public abstract class BaseHero implements InGameInterface {
     }
 
     public BaseHero checkMinArrows(ArrayList<BaseHero> alliedTeam){
-        ArrayList<RangedHeroes> rHeroes;
         BaseHero currentAlly = null;
         int minArrows = Integer.MAX_VALUE;
         for (int i = 0; i < alliedTeam.size(); i++){
@@ -130,71 +130,15 @@ public abstract class BaseHero implements InGameInterface {
         }
         return currentAlly;
     }
-
-//    @Override
-//    public void move(double distance, BaseHero target){
-//        int tmp;
-//        if (distance > 1.42){
-//            if (this.coordinates.x + this.speed >= target.coordinates.x) {
-//                tmp = this.coordinates.x + this.speed - target.coordinates.x;
-//                this.coordinates.x = this.coordinates.x + this.speed - tmp - 1;
-//            }
-//            else if(this.coordinates.x + this.speed < target.coordinates.x) this.coordinates.x = this.coordinates.x + this.speed;
-//
-//            else if (this.coordinates.y + this.speed >= target.coordinates.y) {
-//                tmp = this.coordinates.y + this.speed - target.coordinates.y;
-//                this.coordinates.y = this.coordinates.y + this.speed - tmp - 1;
-//            }
-//            else if(this.coordinates.y + this.speed < target.coordinates.y) this.coordinates.y = this.coordinates.y + this.speed;
-//
-//            else if (this.coordinates.x - this.speed <= target.coordinates.x) {
-//                tmp = this.coordinates.x - this.speed - target.coordinates.x;
-//                this.coordinates.x = this.coordinates.x - this.speed - tmp + 1;
-//            }
-//            else if(this.coordinates.x - this.speed > target.coordinates.x) this.coordinates.x = this.coordinates.x - this.speed;
-//
-//            else if (this.coordinates.y - this.speed <= target.coordinates.y) {
-//                tmp = this.coordinates.y - this.speed - target.coordinates.y;
-//                this.coordinates.y = this.coordinates.y - this.speed - tmp + 1;
-//            }
-//            else if(this.coordinates.y - this.speed > target.coordinates.y) this.coordinates.y = this.coordinates.y - this.speed;
-//        }
-//        if (this.coordinates.x > 10) this.coordinates.x = 10;
-//        else if (this.coordinates.y > 10)  this.coordinates.y = 10;
-//        else if (this.coordinates.x < 0)  this.coordinates.x = 0;
-//        else if (this.coordinates.y < 0)  this.coordinates.y = 0;
-//    }
-
-
     @Override
-    public void move(double distance, BaseHero target) {
-        Coordinates coordTarget = new Coordinates(target.coordinates.x, target.coordinates.y);
-        int dx = coordTarget.x - this.coordinates.x;
-        int dy = coordTarget.y - this.coordinates.y;
-        for (int i = 0; i < this.speed; i++) {
-            if (Math.abs(dx) > Math.abs(dy)){
-                if (dx > 0) this.coordinates.x++;
-                else this.coordinates.x--;
-            }
-            if (Math.abs(dx) < Math.abs(dy)){
-                if (dy > 0) this.coordinates.y++;
-                else this.coordinates.y--;
-            }
-            if (Math.abs(dx) == Math.abs(dy)){
-                if (dx > 0){
-                    this.coordinates.x++;
-                    this.coordinates.y++;
-                }
-                else {
-                    this.coordinates.x--;
-                    this.coordinates.y--;
-                }
+    public void move(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, Coordinates targetPos) {
+        if (!coordinates.containsByPosAlly(coordinates.newPosition(targetPos), alliedTeam)
+            && !coordinates.containsByPosEnemy(coordinates.newPosition(targetPos), enemyTeam)) {
+            for (int i = 0; i < speed; i++) {
+                coordinates = coordinates.newPosition(targetPos);
             }
         }
-            if (this.coordinates.x > 10) this.coordinates.x = 10;
-        else if (this.coordinates.y > 10)  this.coordinates.y = 10;
-        else if (this.coordinates.x < 0)  this.coordinates.x = 0;
-        else if (this.coordinates.y < 0)  this.coordinates.y = 0;
+        else coordinates.x--;
     }
 
     @Override
@@ -215,8 +159,6 @@ public abstract class BaseHero implements InGameInterface {
             }
             else if (team.get(i).hp <= 0) {
                 team.get(i).hp = 0;
-//                System.out.println("Противник " + team.get(i).name + " погиб в бою!");
-//                team.remove(team.get(i));
             }
         }
         System.out.println(res);

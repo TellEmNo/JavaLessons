@@ -1,16 +1,13 @@
 package oop1.units;
 
 import oop1.InGameInterface;
-import oop1.RandomHS;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
+public class Archer extends RangedHeroes implements InGameInterface {
 
-    public Archer(){
-        super(getName(), new Random().nextInt(60, 75), 3, 5,
-                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 7);
+    public Archer(int x, int y){
+        super(getName(), new Random().nextInt(60, 75), 1, 5, x ,y, 7);
         super.arrows = new Random().nextInt(8, 11);
     }
 
@@ -32,15 +29,5 @@ public class Archer extends RangedHeroes implements InGameInterface, RandomHS {
     public String getInfo() {
         return  (super.getInfo()+ "," + " стрел: " + super.arrows +
                 "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y));
-    }
-
-    @Override
-    public BaseHero create1() {
-        return new Archer();
-    }
-
-    @Override
-    public BaseHero create2() {
-        return null;
     }
 }

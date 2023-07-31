@@ -1,15 +1,13 @@
 package oop1.units;
 
 import oop1.InGameInterface;
-import oop1.RandomHS;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
-    public Peasant() {
-        super(getName(), new Random().nextInt(50, 60), 4, 6,
-                new Random().nextInt(1, 3) ,new Random().nextInt(1, 11), 1.42);
+public class Peasant extends MeleeHeroes implements InGameInterface {
+    public Peasant(int x, int y) {
+        super(getName(), new Random().nextInt(50, 60), 1, 6, x ,y, 1.42);
         super.endurance = new Random().nextInt(40, 50);
         super.maxEndurance = super.endurance;
     }
@@ -39,21 +37,12 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
     }
 
     @Override
-    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam, double dist, double attackRange) {
-        ArrayList<BaseHero> tmp;
-        ArrayList<BaseHero> tmpHeal;
+    public void step(ArrayList<BaseHero> alliedTeam, ArrayList<BaseHero> enemyTeam) {
         String res;
         if(super.hp > 0) {
-            if (dist > 0) {
-                tmp = enemyTeam;
-                tmpHeal = alliedTeam;
-            } else {
-                tmp = alliedTeam;
-                tmpHeal = enemyTeam;
-            }
-            BaseHero currentEnemy = closestEnemy(tmp);
-            BaseHero currentAlly = checkMinHP(tmpHeal);
-            BaseHero currentRAlly = checkMinArrows(tmpHeal);
+            BaseHero currentEnemy = closestEnemy(enemyTeam);
+            BaseHero currentAlly = checkMinHP(alliedTeam);
+            BaseHero currentRAlly = checkMinArrows(alliedTeam);
             if (currentRAlly instanceof RangedHeroes && currentRAlly.arrows < 8 & currentRAlly.hp != 0) {
                 res = String.format("Цель - %s, класс: %s, hp: %.1f"
                         , currentAlly.name, currentRAlly.getClass().getSimpleName(), currentRAlly.hp);
@@ -64,7 +53,7 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
                 bringAnArrow(currentRAlly);
                 currentRAlly.getInfo();
             } else {
-                if (checkMinHP(tmpHeal).getHp() < checkMinHP(tmpHeal).getMaxHp()
+                if (checkMinHP(alliedTeam).getHp() < checkMinHP(alliedTeam).getMaxHp()
                         & !(currentAlly instanceof Plowman) & currentAlly.hp != 0) {
                     res = String.format("Цель лечения - %s, класс: %s, hp: %.1f"
                             , currentAlly.name, currentAlly.getClass().getSimpleName(), currentAlly.hp);
@@ -72,38 +61,25 @@ public class Peasant extends MeleeHeroes implements InGameInterface, RandomHS {
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " лечит "
                             + currentAlly.getClass().getSimpleName() + " " + currentAlly.name);
                     woundDressing(currentAlly);
-                } else if (distanceTo(tmp) > attackRange & currentEnemy.hp != 0) {
-                    closestCharacterInfo(tmp);
-                    move(distanceTo(tmp) ,currentEnemy);
+                } else if (distanceTo(enemyTeam) > super.attackRange & currentEnemy.hp != 0) {
+                    closestCharacterInfo(enemyTeam);
+                    move(alliedTeam, enemyTeam ,currentEnemy.coordinates);
                     System.out.println(super.getClass().getSimpleName() + " " + super.name
                             + " движется к " + currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name
                             + ". Новые координаты: " + super.coordinates.x + ":" + super.coordinates.y);
-                    if (distanceTo(tmp) < attackRange & currentEnemy.hp != 0) {
+                    if (distanceTo(enemyTeam) < super.attackRange & currentEnemy.hp != 0 && distanceTo(enemyTeam) != 0) {
                         System.out.println(super.getClass().getSimpleName() + " " + super.name + " бьёт лопатой! ...");
                         attack(currentEnemy);
-                        closestCharacterInfo(tmp);
                     }
-                } else if ( currentEnemy.hp != 0){
-                    closestCharacterInfo(tmp);
+                } else if ( currentEnemy.hp != 0 && distanceTo(enemyTeam) != 0){
+                    closestCharacterInfo(enemyTeam);
                     System.out.println(super.getClass().getSimpleName() + " " + super.name + " бьёт лопатой! ...");
                     attack(currentEnemy);
-                    closestCharacterInfo(tmp);
                 }
                 if (currentEnemy.hp == 0)
                     System.out.println(currentEnemy.getClass().getSimpleName() + " " + currentEnemy.name + " погиб в бою!");
-                System.out.println();
             }
         }
-        else return;
-    }
-
-    @Override
-    public BaseHero create1() {
-        return new Peasant();
-    }
-
-    @Override
-    public BaseHero create2() {
-        return null;
+        System.out.println();
     }
 }

@@ -1,16 +1,14 @@
 package oop1.units;
 
 import oop1.InGameInterface;
-import oop1.RandomHS;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Crossbowman extends RangedHeroes implements InGameInterface, RandomHS {
+public class Crossbowman extends RangedHeroes implements InGameInterface {
 
-    public Crossbowman() {
-        super(getName(), new Random().nextInt(60, 85), 3, 5,
-                new Random().nextInt(9, 11) ,new Random().nextInt(1, 11), 8);
+    public Crossbowman(int x, int y) {
+        super(getName(), new Random().nextInt(60, 85), 1, 5,x, y, 8);
         super.arrows = new Random().nextInt(7, 10);
     }
 
@@ -32,15 +30,5 @@ public class Crossbowman extends RangedHeroes implements InGameInterface, Random
     public String getInfo() {
         return  (super.getInfo()+ "," + " болтов: " + super.arrows +
                 "," + " координаты: " + (super.coordinates.x+":"+super.coordinates.y));
-    }
-
-    @Override
-    public BaseHero create1() {
-        return null;
-    }
-
-    @Override
-    public BaseHero create2() {
-        return new Crossbowman();
     }
 }
